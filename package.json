@@ -10,7 +10,10 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ],
-    "*.{rb,rake}": ["bundle exec rubocop -a --force-exclusion", "git add"]
+    "*.{rb,rake}": [
+      "bundle exec rubocop -a --force-exclusion",
+      "git add"
+    ]
   },
   "dependencies": {
     "airbrake-js": "^0.9.4",
@@ -63,6 +66,7 @@
     "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "uglify-js": "^3.0.27",
     "urijs": "^1.18.10",
     "webpack": "^2.6.1",
     "webpack-manifest-plugin": "^1.1.2",
@@ -103,7 +107,12 @@
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
       "^champaign-i18n$": "<rootDir>/spec/jest/champaign-i18n-stub.js"
     },
-    "roots": ["<rootDir>/app/javascript"],
-    "setupFiles": ["<rootDir>/spec/jest/setupJest", "babel-polyfill"]
+    "roots": [
+      "<rootDir>/app/javascript"
+    ],
+    "setupFiles": [
+      "<rootDir>/spec/jest/setupJest",
+      "babel-polyfill"
+    ]
   }
 }
