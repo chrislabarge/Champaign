@@ -28,11 +28,6 @@ config/env.yml
 queue_listeners/config/env.yml
 
 .DS_Store
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-public/system
 
 config/settings.local.yml
 config/settings/*.local.yml
@@ -58,3 +53,9 @@ yarn-error.log
 /public/packs-test
 /node_modules
 .env
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
