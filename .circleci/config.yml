@@ -22,7 +22,6 @@ jobs:
 
     steps:
       - checkout
-
       # Restore cache
       - restore_cache:
           key: champaign-{{ checksum "Gemfile.lock" }}
