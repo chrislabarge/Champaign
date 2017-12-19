@@ -175,6 +175,12 @@ Rails.application.routes.draw do
     match '*path', via: :options, to: lambda { |_|
       [204, { 'Content-Type' => 'text/plain' }, []]
     }
+
+    namespace :member_services do
+      delete '/recurring_donations/:provider/:id', action: 'cancel_recurring_donation'
+      put '/members/', action: 'update_member'
+      get '/gocardless/customers', action: :gocardless_customers
+    end
   end
 
   post '/twilio/calls/:id/start',              to: 'twilio/calls#start', as: :call_start
