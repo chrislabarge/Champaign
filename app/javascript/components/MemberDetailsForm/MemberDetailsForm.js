@@ -15,7 +15,7 @@ type OwnProps = {
   buttonText?: Element<any> | string,
   proceed?: () => void,
   fields: Object,
-  prefillValues: Object,
+  formValues: Object,
   outstandingFields: any[],
   pageId: number,
   formId: number,
@@ -56,22 +56,17 @@ export class MemberDetailsForm extends Component {
     this.prefill();
   }
 
-  getPrefillValue(name) {
-    if (!this.props.prefillValues) return null;
-
-    return this.props.prefillValues[name];
-  }
-
   prefill() {
     const data = {};
     for (const field of this.props.fields) {
-      data[field.name] =
-        this.getPrefillValue(field.name) || field.default_value;
+      data[field.name] = this.props.formValues[field.name]
+        ? this.props.formValues[field.name]
+        : field.default_value;
     }
 
     for (const name of this.HIDDEN_FIELDS) {
-      if (this.getPrefillValue(name)) {
-        data[name] = this.props.prefillValues[name];
+      if (this.props.formValues[name]) {
+        data[name] = this.props.formValues[name];
       }
     }
     this.props.updateForm({ ...this.props.form, ...data });
@@ -150,6 +145,28 @@ export class MemberDetailsForm extends Component {
     );
   }
 
+  fieldsToDisplay() {
+    return this.props.fields.filter(field => {
+      switch (field.display_mode) {
+        case 'all_members':
+          return true;
+        case 'recognized_members_only':
+          return this.recognizedMemberPresent();
+        case 'new_members_only':
+          return !this.recognizedMemberPresent();
+        default:
+          console.log(
+            `Unknown display_mode "${field.display_mode}" for field "${field.name}"`
+          );
+          return false;
+      }
+    });
+  }
+
+  recognizedMemberPresent() {
+    return !!this.props.formValues.email;
+  }
+
   render() {
     const { loading } = this.state;
 
@@ -159,7 +176,7 @@ export class MemberDetailsForm extends Component {
           onSubmit={this.submit.bind(this)}
           className="form--big action-form"
         >
-          {this.props.fields.map((field, ii) =>
+          {this.fieldsToDisplay().map(field => (
             <FieldShape
               key={field.name}
               errorMessage={this.getFieldError(field.name)}
@@ -167,7 +184,7 @@ export class MemberDetailsForm extends Component {
               value={this.props.form[field.name]}
               field={field}
             />
-          )}
+          ))}
 
           <Button
             type="submit"
